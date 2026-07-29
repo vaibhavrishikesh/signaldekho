@@ -2255,9 +2255,9 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
 ```markdown
 # Play Store prep
 
-## Decisions still open
-- Final app name: SignalDekho vs Signal Range (Play search pe "Signal Range"
-  exact naam ka app nahi mila as of 2026-07-29; SignalDekho distinctive hai)
+## Decisions
+- Final app name: **SignalDekho** (locked 2026-07-29; "Signal Range" available
+  tha but generic)
 
 ## Console tasks (manual, Sunil's account)
 1. App listing: category Tools; title + short/full description (EN + HI)

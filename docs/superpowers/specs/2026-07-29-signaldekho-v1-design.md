@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-29
 **Status:** Approved (brainstormed with Sunil)
-**Working name:** SignalDekho (alt: Signal Sathi — final name TBD before Play Store listing, not blocking implementation)
+**Name:** SignalDekho (finalized 2026-07-29)
 
 ## What it is
 
