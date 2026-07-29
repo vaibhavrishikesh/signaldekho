@@ -37,12 +37,12 @@ One scrollable screen, three sections:
 
 ### 2. Ghar Scan (coverage survey)
 Flow: add room by name (free text + quick chips: Bedroom, Kitchen, Hall, Chhat…) → stand in room → tap "Naap lo" → app records connected-WiFi RSSI, strongest nearby APs, and cellular dBm per SIM → repeat for next room → finish → Report.
-Surveys are persisted; user can resume or re-run later.
+Surveys are persisted on-device; v1 shows the report immediately after a survey (browsing past surveys: v1.1).
 
 ### 3. Report
 - Room list, each color-coded green/yellow/red for WiFi and cellular separately.
 - Best room / worst room callouts.
-- Plain-language recommendations from a rules-based `RecommendationEngine` (no AI, no server). Examples: weakest-room callout, "router ko ghar ke beech rakho" heuristics, channel-congestion note if many APs share the connected channel.
+- Plain-language recommendations from a rules-based `RecommendationEngine` (no AI, no server). Examples: best/weakest-room callouts, "router ko ghar ke beech rakho" heuristic when any room is WEAK, all-good celebration. (Channel-congestion advice: v1.1.)
 - **Share as image** button → renders report to a PNG → Android share sheet (WhatsApp-first). Image carries a small "SignalDekho" watermark — this is the marketing loop.
 
 ## Architecture
