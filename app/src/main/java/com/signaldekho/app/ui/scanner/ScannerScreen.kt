@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,8 +77,8 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
                 Row(verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     cell.dbm?.let { GradeDot(SignalGrade.cell(it)) }
-                    Text("SIM${cell.simSlot} ${cell.operatorName} · ${cell.networkType}")
-                    Text(cell.dbm?.let { stringResource(R.string.scanner_dbm, it) } ?: "—",
+                    Text(stringResource(R.string.scanner_sim_line, cell.simSlot, cell.operatorName, cell.networkType))
+                    Text(cell.dbm?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.scanner_no_reading),
                         style = MaterialTheme.typography.bodyMedium)
                     if (cell.ageMillis > 10_000) {
                         Text(stringResource(R.string.scanner_reading_age, cell.ageMillis / 1000),
@@ -117,7 +116,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
                                     style = MaterialTheme.typography.labelSmall, color = GradeGood)
                             }
                         }
-                        Text("${net.rssi} dBm · ch ${net.channel} · ${net.band.name.removePrefix("GHZ_").replace('_', '.')} GHz",
+                        Text(stringResource(R.string.scanner_wifi_detail, net.rssi, net.channel, net.band.name.removePrefix("GHZ_").replace('_', '.')),
                             style = MaterialTheme.typography.bodySmall)
                     }
                 }

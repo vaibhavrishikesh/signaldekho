@@ -20,4 +20,7 @@
     <string name="scanner_ghar_scan_cta">Ghar Scan karo</string>
     <string name="scanner_connected">Connected</string>
     <string name="scanner_reading_age">%1$d sec purana</string>
+    <string name="scanner_sim_line">SIM%1$d %2$s · %3$s</string>
+    <string name="scanner_wifi_detail">%1$d dBm · ch %2$d · %3$s GHz</string>
+    <string name="scanner_no_reading">—</string>
 </resources>
