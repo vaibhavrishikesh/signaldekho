@@ -35,4 +35,14 @@
     <string name="ghar_chip_bathroom">Bathroom</string>
     <string name="ghar_chip_balcony">Balcony</string>
     <string name="ghar_chip_chhat">Chhat</string>
+    <string name="report_title">Coverage Report</string>
+    <string name="report_wifi_col">WiFi</string>
+    <string name="report_cell_col">SIM</string>
+    <string name="report_share">WhatsApp pe share karo</string>
+    <string name="report_finding_best_wifi">Sabse accha WiFi: %1$s</string>
+    <string name="report_finding_weakest_wifi">Sabse kamzor WiFi: %1$s</string>
+    <string name="report_finding_weakest_cell">Sabse kamzor SIM signal: %1$s</string>
+    <string name="report_finding_wifi_all_good">Har room mein WiFi badhiya hai 🎉</string>
+    <string name="report_finding_router">Router ko ghar ke beech mein, oonchi jagah rakho — deewaron se door.</string>
+    <string name="report_no_reading">—</string>
 </resources>
