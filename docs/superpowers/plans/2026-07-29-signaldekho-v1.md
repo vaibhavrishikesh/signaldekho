@@ -2112,6 +2112,9 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
     <string name="scanner_ghar_scan_cta">घर Scan करो</string>
     <string name="scanner_connected">Connected</string>
     <string name="scanner_reading_age">%1$d sec पुराना</string>
+    <string name="scanner_sim_line">SIM%1$d %2$s · %3$s</string>
+    <string name="scanner_wifi_detail">%1$d dBm · ch %2$d · %3$s GHz</string>
+    <string name="scanner_no_reading">—</string>
     <string name="ghar_title">घर Scan</string>
     <string name="ghar_room_hint">Room का नाम</string>
     <string name="ghar_measure">नाप लो</string>
