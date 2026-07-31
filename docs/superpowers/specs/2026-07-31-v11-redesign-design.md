@@ -23,9 +23,13 @@ is not met while dBm is the primary number and no plain-language verdict exists.
 
 ## Locked decisions
 
+- **The app is English-only.** v1 shipped Hinglish strings ("Naap lo", "Ghar Scan karo")
+  plus a Devanagari `values-hi` locale. Both go: every string is rewritten as plain
+  English and `res/values-hi/` is deleted. One language, written properly, beats two
+  written awkwardly — and it keeps the Play listing simple.
 - **Plain-language grades replace raw dBm as the primary signal.** Four levels:
-  `Badhiya` / `Theek` / `Kamzor` / `Bahut kamzor`. dBm still shown, small and muted.
-  Level names live in `strings.xml` (both locales) so they can change without code.
+  `Excellent` / `Good` / `Weak` / `Very weak`. dBm still shown, small and muted.
+  Level names live in `strings.xml` so they can change without touching code.
 - Thresholds extend v1's locked 3-level scale to 4 by splitting the top band:
   - WiFi RSSI: `Badhiya ≥ −55`, `Theek ≥ −67`, `Kamzor ≥ −80`, else `Bahut kamzor`
   - Cell dBm: `Badhiya ≥ −85`, `Theek ≥ −95`, `Kamzor ≥ −110`, else `Bahut kamzor`
@@ -54,15 +58,15 @@ only as part of the existing detail line, band-first).
 ## Ghar Scan screen
 
 **Pre-flight WiFi warning**: when the phone is not connected to WiFi, a warning banner
-sits above the measure button — "WiFi se connect nahi ho — sirf SIM signal naapa
-jayega." The user learns the limitation *before* spending effort walking the house.
+sits above the measure button — "Not connected to WiFi — only SIM signal will be
+measured." The user learns the limitation *before* spending effort walking the house.
 Measuring is still allowed (cell-only surveys are legitimate).
 
 Measured rooms render as chips rather than stacked text lines.
 
 ## Report screen
 
-- Header: "Ghar ki coverage", room count + date.
+- Header: "Coverage report", room count.
 - **Missing-data banner**: if no room captured a WiFi reading, an explicit banner says
   WiFi was not measured and why. Replaces silent `—` cells.
 - **Room rows sorted best → worst**, each with a proportional bar and the grade word.
@@ -70,8 +74,8 @@ Measured rooms render as chips rather than stacked text lines.
   clamped to 0–100%.
 - Both WiFi and cell values are colored by grade (v1 colored only on screen, and the
   shared image colored only WiFi).
-- **Advice block** replaces bare findings: each finding renders with an icon and states
-  an action ("router ko Hall ki taraf, oonchi jagah rakho"), not just an observation.
+- **Advice block** replaces bare findings: each finding states an action ("Move the router
+  toward the centre of the home, up high and away from walls"), not just an observation.
 
 ## RecommendationEngine changes
 
@@ -92,9 +96,9 @@ tests, including the two regressions QA exposed (all-identical readings; no WiFi
 ## Share image
 
 `ReportImageRenderer` mirrors the new report: grade words, colored bars per room,
-the missing-data banner line when applicable, advice lines, watermark. Its scaffolding
-strings ("Coverage Report", "WiFi", "SIM") move to resources so the shared image is
-Hindi when the phone is Hindi — currently they are hardcoded English.
+the missing-data banner line when applicable, advice lines, watermark. All its display
+text arrives as arguments from resources rather than hardcoded literals, so the renderer
+holds no copy of its own.
 
 ## Out of scope (v1.2+)
 
@@ -104,7 +108,8 @@ background monitoring, moving repo IPC off the main thread.
 ## Success criteria
 
 - No raw dBm appears as the largest element on any screen.
-- A survey taken with WiFi disconnected produces a report that says so, in both languages.
+- No Hinglish or Devanagari copy remains anywhere in the app; `res/values-hi/` is gone.
+- A survey taken with WiFi disconnected produces a report that says so.
 - A survey where all rooms read identically produces no ranking finding.
-- Shared PNG matches the on-screen report and renders Hindi under a Hindi locale.
+- Shared PNG matches the on-screen report.
 - Unit tests cover every new engine rule; existing tests updated for the 4-level scale.
