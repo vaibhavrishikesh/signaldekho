@@ -28,7 +28,7 @@
     <string name="ghar_measure">Naap lo</string>
     <string name="ghar_measured">%1$s ho gaya ✓</string>
     <string name="ghar_done">Report dekho</string>
-    <string name="ghar_instructions">Har room mein jao, naam likho (ya chip dabao), phir "Naap lo" dabao. Kam se kam 2 rooms naapo.</string>
+    <string name="ghar_instructions">Har room mein jao, naam likho (ya chip dabao), phir \"Naap lo\" dabao. Kam se kam 2 rooms naapo.</string>
     <string name="ghar_chip_bedroom">Bedroom</string>
     <string name="ghar_chip_kitchen">Kitchen</string>
     <string name="ghar_chip_hall">Hall</string>

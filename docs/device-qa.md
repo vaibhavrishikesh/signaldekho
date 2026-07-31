@@ -30,3 +30,4 @@ Install: `adb devices` shows device → `./gradlew :app:installDebug`
 ## Stability
 - [ ] Rotate on every screen — no crash, state survives
 - [ ] Background the app 2 min → resume → scanner recovers
+- [ ] Background the app from Scanner → BLE scan + 1s tick actually stop (verify via logcat), resume → scanner recovers

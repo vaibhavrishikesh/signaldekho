@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Survey::class, RoomReadingEntity::class], version = 1, exportSchema = false)
+@Database(entities = [Survey::class, RoomReadingEntity::class], version = 1, exportSchema = true)
 abstract class SurveyDb : RoomDatabase() {
     abstract fun surveyDao(): SurveyDao
 
