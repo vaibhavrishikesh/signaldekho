@@ -1,0 +1,55 @@
+package com.signaldekho.app.data
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.SystemClock
+import android.telephony.CellInfo
+import android.telephony.CellInfoGsm
+import android.telephony.CellInfoLte
+import android.telephony.CellInfoNr
+import android.telephony.CellInfoWcdma
+import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
+
+@SuppressLint("MissingPermission") // callers gate on ACCESS_FINE_LOCATION + READ_PHONE_STATE
+class CellularRepo(private val context: Context) {
+
+    fun read(): List<CellReading> {
+        val subMgr = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+        val telMgr = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val subs = subMgr.activeSubscriptionInfoList ?: return emptyList()
+        return subs.map { sub ->
+            val tm = telMgr.createForSubscriptionId(sub.subscriptionId)
+            val registered = tm.allCellInfo?.filter { it.isRegistered } ?: emptyList()
+            val primary = registered.firstOrNull()
+            CellReading(
+                simSlot = sub.simSlotIndex + 1,
+                operatorName = sub.carrierName?.toString() ?: "?",
+                networkType = primary?.let { networkTypeOf(it) } ?: "?",
+                dbm = primary?.let { dbmOf(it) },
+                ageMillis = primary?.let {
+                    (SystemClock.elapsedRealtimeNanos() - it.timeStamp * 1_000_000) / 1_000_000
+                } ?: 0L,
+            )
+        }
+    }
+
+    private fun networkTypeOf(info: CellInfo): String = when (info) {
+        is CellInfoNr -> "5G"
+        is CellInfoLte -> "4G"
+        is CellInfoWcdma -> "3G"
+        is CellInfoGsm -> "2G"
+        else -> "?"
+    }
+
+    private fun dbmOf(info: CellInfo): Int? {
+        val dbm = when (info) {
+            is CellInfoNr -> info.cellSignalStrength.dbm
+            is CellInfoLte -> info.cellSignalStrength.dbm
+            is CellInfoWcdma -> info.cellSignalStrength.dbm
+            is CellInfoGsm -> info.cellSignalStrength.dbm
+            else -> return null
+        }
+        return if (dbm == CellInfo.UNAVAILABLE || dbm == Int.MAX_VALUE) null else dbm
+    }
+}
