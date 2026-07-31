@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SignalDekho</string>
+    <string name="onboarding_title">Location permission kyun?</string>
+    <string name="onboarding_body">Android ka rule hai — WiFi aur signal scan ke liye location permission zaroori hai. SignalDekho aapki location kahin nahi bhejta. Sab kuch aapke phone par hi rehta hai — no internet, no ads.</string>
+    <string name="onboarding_cta">Theek hai, shuru karo</string>
+    <string name="perm_denied_title">Permission chahiye</string>
+    <string name="perm_denied_body">Bina location permission ke signals nahi dikh sakte. Settings mein jaakar allow karein.</string>
+    <string name="perm_denied_cta">Settings kholo</string>
 </resources>
