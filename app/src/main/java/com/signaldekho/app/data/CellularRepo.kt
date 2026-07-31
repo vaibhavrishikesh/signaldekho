@@ -35,6 +35,8 @@ class CellularRepo(private val context: Context) {
     }
 
     private fun networkTypeOf(info: CellInfo): String = when (info) {
+        // CellInfoNr requires API 29 — it's only instantiated by the OS on API 29+ devices,
+        // so referencing the class is safe at minSdk 26 (class-load only happens inside when on devices that return it)
         is CellInfoNr -> "5G"
         is CellInfoLte -> "4G"
         is CellInfoWcdma -> "3G"
