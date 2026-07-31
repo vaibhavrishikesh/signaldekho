@@ -1,7 +1,6 @@
 package com.signaldekho.app.ui.report
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,13 +47,13 @@ fun ReportScreen(surveyId: Long) {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(
                         stringResource(R.string.report_wifi_col) + " " +
-                            (row.wifiRssi?.let { "${it} dBm" } ?: stringResource(R.string.report_no_reading)),
+                            (row.wifiRssi?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.report_no_reading)),
                         color = row.wifiRssi?.let { gradeColor(SignalGrade.wifi(it)) }
                             ?: MaterialTheme.colorScheme.onSurface,
                     )
                     Text(
                         stringResource(R.string.report_cell_col) + " " +
-                            (row.cellDbm?.let { "${it} dBm" } ?: stringResource(R.string.report_no_reading)),
+                            (row.cellDbm?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.report_no_reading)),
                         color = row.cellDbm?.let { gradeColor(SignalGrade.cell(it)) }
                             ?: MaterialTheme.colorScheme.onSurface,
                     )
