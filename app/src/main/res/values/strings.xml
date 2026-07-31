@@ -23,4 +23,16 @@
     <string name="scanner_sim_line">SIM%1$d %2$s · %3$s</string>
     <string name="scanner_wifi_detail">%1$d dBm · ch %2$d · %3$s GHz</string>
     <string name="scanner_no_reading">—</string>
+    <string name="ghar_title">Ghar Scan</string>
+    <string name="ghar_room_hint">Room ka naam</string>
+    <string name="ghar_measure">Naap lo</string>
+    <string name="ghar_measured">%1$s ho gaya ✓</string>
+    <string name="ghar_done">Report dekho</string>
+    <string name="ghar_instructions">Har room mein jao, naam likho (ya chip dabao), phir "Naap lo" dabao. Kam se kam 2 rooms naapo.</string>
+    <string name="ghar_chip_bedroom">Bedroom</string>
+    <string name="ghar_chip_kitchen">Kitchen</string>
+    <string name="ghar_chip_hall">Hall</string>
+    <string name="ghar_chip_bathroom">Bathroom</string>
+    <string name="ghar_chip_balcony">Balcony</string>
+    <string name="ghar_chip_chhat">Chhat</string>
 </resources>
