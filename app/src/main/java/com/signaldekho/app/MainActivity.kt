@@ -3,7 +3,11 @@ package com.signaldekho.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
 import com.signaldekho.app.ui.AppNav
 import com.signaldekho.app.ui.LocalAppContainer
 import com.signaldekho.app.ui.PermissionGate
@@ -15,8 +19,10 @@ class MainActivity : ComponentActivity() {
         val container = (application as SignalDekhoApp).container
         setContent {
             SignalDekhoTheme {
-                CompositionLocalProvider(LocalAppContainer provides container) {
-                    PermissionGate { AppNav() }
+                Box(Modifier.fillMaxSize().safeDrawingPadding()) {
+                    CompositionLocalProvider(LocalAppContainer provides container) {
+                        PermissionGate { AppNav() }
+                    }
                 }
             }
         }

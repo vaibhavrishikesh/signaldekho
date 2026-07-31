@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
+import android.os.Build
 
 @SuppressLint("MissingPermission") // callers gate on BLUETOOTH_SCAN / location
 class BleRepo(context: Context) {
@@ -17,7 +18,9 @@ class BleRepo(context: Context) {
         if (callback != null) return
         callback = object : ScanCallback() {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
-                onReading(BleReading(result.device?.name, result.device?.address ?: "?", result.rssi))
+                val name = result.scanRecord?.deviceName
+                    ?: if (Build.VERSION.SDK_INT < 31) result.device?.name else null
+                onReading(BleReading(name, result.device?.address ?: "?", result.rssi))
             }
         }
         scanner.startScan(callback)

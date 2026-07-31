@@ -46,10 +46,15 @@ class ScannerViewModel(
             _state.update { it.copy(ble = bleSeen.values.sortedByDescending { b -> b.rssi }) }
         }
         tickJob?.cancel()
-        tickJob = viewModelScope.launch {           // 1s tick: cellular + countdown
+        tickJob = viewModelScope.launch {           // 1s tick: cellular + wifi + countdown
             while (true) {
                 _state.update {
-                    it.copy(cells = cellularRepo.read(), secondsToNextScan = currentSecondsToNextScan())
+                    it.copy(
+                        cells = cellularRepo.read(),
+                        wifi = wifiRepo.latestResults(),
+                        connectedSsid = wifiRepo.connectedSsidAndRssi()?.first,
+                        secondsToNextScan = currentSecondsToNextScan(),
+                    )
                 }
                 delay(1000)
             }
