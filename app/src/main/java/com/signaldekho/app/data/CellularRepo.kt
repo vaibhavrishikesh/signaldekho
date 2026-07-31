@@ -28,7 +28,8 @@ class CellularRepo(private val context: Context) {
                 networkType = primary?.let { networkTypeOf(it) } ?: "?",
                 dbm = primary?.let { dbmOf(it) },
                 ageMillis = primary?.let {
-                    (SystemClock.elapsedRealtimeNanos() - it.timeStamp * 1_000_000) / 1_000_000
+                    @Suppress("DEPRECATION") // getTimeStamp() (nanos since boot) — getTimestampMillis needs API 30, minSdk is 26
+                    (SystemClock.elapsedRealtimeNanos() - it.timeStamp) / 1_000_000
                 } ?: 0L,
             )
         }
