@@ -7,4 +7,17 @@
     <string name="perm_denied_title">Permission chahiye</string>
     <string name="perm_denied_body">Bina location permission ke signals nahi dikh sakte. Settings mein jaakar allow karein.</string>
     <string name="perm_denied_cta">Settings kholo</string>
+    <string name="scanner_sim_header">SIM Signal</string>
+    <string name="scanner_wifi_header">WiFi Networks</string>
+    <string name="scanner_ble_header">Bluetooth Devices</string>
+    <string name="scanner_refresh">Refresh</string>
+    <string name="scanner_next_scan_in">Agla scan %1$d sec mein</string>
+    <string name="scanner_no_sim">SIM nahi mili</string>
+    <string name="scanner_no_wifi">Koi WiFi network nahi dikha — Refresh dabao</string>
+    <string name="scanner_no_ble">Koi Bluetooth device paas nahi</string>
+    <string name="scanner_unknown_device">Unknown device</string>
+    <string name="scanner_dbm">%1$d dBm</string>
+    <string name="scanner_ghar_scan_cta">Ghar Scan karo</string>
+    <string name="scanner_connected">Connected</string>
+    <string name="scanner_reading_age">%1$d sec purana</string>
 </resources>
