@@ -29,6 +29,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.signaldekho.app.R
 import com.signaldekho.app.domain.Finding
+import com.signaldekho.app.domain.Grade
 import com.signaldekho.app.domain.SignalGrade
 import com.signaldekho.app.ui.LocalAppContainer
 import com.signaldekho.app.ui.components.FillBar
@@ -121,9 +122,22 @@ fun ReportScreen(surveyId: Long) {
 
         item {
             val context = LocalContext.current
-            val findingStrings = state.findings.map { findingText(it) }
+            val rows = sortedRows(state.rows)
+            val findingStrings = state.findings
+                .filterNot { it == Finding.WifiNotMeasured }
+                .map { findingText(it) }
+            val header = RenderHeader(
+                title = stringResource(R.string.report_image_title),
+                subtitle = stringResource(R.string.report_subtitle, state.rows.size),
+                wifiLabel = stringResource(R.string.report_row_wifi),
+                simLabel = stringResource(R.string.report_row_sim),
+                notMeasured = stringResource(R.string.report_wifi_not_measured)
+                    .takeIf { state.findings.contains(Finding.WifiNotMeasured) },
+                watermark = stringResource(R.string.report_watermark),
+                gradeLabels = Grade.entries.associateWith { gradeLabel(it) },
+            )
             Button(onClick = {
-                val file = ReportImageRenderer.render(context, state.rows, findingStrings)
+                val file = ReportImageRenderer.render(context, header, rows, findingStrings)
                 val uri = FileProvider.getUriForFile(context, "com.signaldekho.app.fileprovider", file)
                 val send = Intent(Intent.ACTION_SEND).apply {
                     type = "image/png"
