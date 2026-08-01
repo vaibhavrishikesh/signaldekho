@@ -18,9 +18,10 @@ object ReportImageRenderer {
     private const val NULL_ARGB = 0xFF888888.toInt()
 
     private fun gradeArgb(g: Grade): Int = when (g) {
+        Grade.EXCELLENT -> 0xFF1B5E20.toInt()
         Grade.GOOD -> 0xFF2E7D32.toInt()
-        Grade.OK -> 0xFFF9A825.toInt()
         Grade.WEAK -> 0xFFC62828.toInt()
+        Grade.VERY_WEAK -> 0xFF8B0000.toInt()
     }
 
     fun render(context: Context, rows: List<ReportRow>, findingTexts: List<String>): File {

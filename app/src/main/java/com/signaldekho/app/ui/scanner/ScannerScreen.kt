@@ -36,9 +36,10 @@ import com.signaldekho.app.ui.theme.GradeOk
 import com.signaldekho.app.ui.theme.GradeWeak
 
 fun gradeColor(g: Grade): Color = when (g) {
+    Grade.EXCELLENT -> Color(0xFF1B5E20)
     Grade.GOOD -> GradeGood
-    Grade.OK -> GradeOk
     Grade.WEAK -> GradeWeak
+    Grade.VERY_WEAK -> Color(0xFF8B0000)
 }
 
 @Composable

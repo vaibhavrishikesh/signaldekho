@@ -32,8 +32,12 @@ fun findingText(f: Finding): String = when (f) {
     is Finding.BestWifiRoom -> stringResource(R.string.report_finding_best_wifi, f.room)
     is Finding.WeakestWifiRoom -> stringResource(R.string.report_finding_weakest_wifi, f.room)
     is Finding.WeakestCellRoom -> stringResource(R.string.report_finding_weakest_cell, f.room)
+    is Finding.BestRoomForCalls -> stringResource(R.string.report_finding_best_wifi, f.room)
     Finding.WifiAllGood -> stringResource(R.string.report_finding_wifi_all_good)
     Finding.RouterReposition -> stringResource(R.string.report_finding_router)
+    Finding.WifiNotMeasured -> stringResource(R.string.report_finding_wifi_all_good)
+    Finding.AllRoomsSimilarWifi -> stringResource(R.string.report_finding_wifi_all_good)
+    Finding.AllRoomsSimilarCell -> stringResource(R.string.report_finding_wifi_all_good)
 }
 
 @Composable
