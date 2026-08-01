@@ -76,4 +76,42 @@ class RecommendationEngineTest {
         assertTrue(findings.contains(Finding.BestRoomForCalls("Roof")))
         assertTrue(findings.contains(Finding.WeakestCellRoom("Store")))
     }
+
+    @Test fun `single wifi reading is not ranked and not called similar`() {
+        val rooms = listOf(
+            RoomResult("Hall", wifiRssi = -70, cellDbm = null),
+            RoomResult("Kitchen", wifiRssi = null, cellDbm = null),
+        )
+        val findings = RecommendationEngine.analyze(rooms)
+        assertTrue(findings.none { it is Finding.AllRoomsSimilarWifi })
+        assertTrue(findings.none { it is Finding.BestWifiRoom })
+        assertTrue(findings.none { it is Finding.WeakestWifiRoom })
+    }
+
+    @Test fun `single very weak wifi reading still advises repositioning`() {
+        val rooms = listOf(
+            RoomResult("Store", wifiRssi = -88, cellDbm = null),
+            RoomResult("Hall", wifiRssi = null, cellDbm = null),
+        )
+        assertTrue(RecommendationEngine.analyze(rooms).contains(Finding.RouterReposition))
+    }
+
+    @Test fun `single cell reading is not ranked and not called similar`() {
+        val rooms = listOf(
+            RoomResult("Roof", wifiRssi = null, cellDbm = -100),
+            RoomResult("Hall", wifiRssi = null, cellDbm = null),
+        )
+        val findings = RecommendationEngine.analyze(rooms)
+        assertTrue(findings.none { it is Finding.AllRoomsSimilarCell })
+        assertTrue(findings.none { it is Finding.BestRoomForCalls })
+        assertTrue(findings.none { it is Finding.WeakestCellRoom })
+    }
+
+    @Test fun `readings exactly at the similarity boundary count as similar`() {
+        val rooms = listOf(
+            RoomResult("Hall", wifiRssi = -70, cellDbm = null),
+            RoomResult("Bedroom", wifiRssi = -73, cellDbm = null),
+        )
+        assertTrue(RecommendationEngine.analyze(rooms).contains(Finding.AllRoomsSimilarWifi))
+    }
 }

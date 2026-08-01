@@ -32,13 +32,20 @@ object RecommendationEngine {
         if (readings.all { SignalGrade.wifi(it.second) == Grade.EXCELLENT }) {
             return listOf(Finding.WifiAllGood)
         }
-        if (isSimilar(readings.map { it.second })) return listOf(Finding.AllRoomsSimilarWifi)
 
-        val best = readings.maxBy { it.second }
-        val worst = readings.minBy { it.second }
+        // Ranking findings only with 2+ readings
         return buildList {
-            add(Finding.BestWifiRoom(best.first))
-            add(Finding.WeakestWifiRoom(worst.first))
+            if (readings.size >= 2) {
+                if (isSimilar(readings.map { it.second })) {
+                    add(Finding.AllRoomsSimilarWifi)
+                } else {
+                    val best = readings.maxBy { it.second }
+                    val worst = readings.minBy { it.second }
+                    add(Finding.BestWifiRoom(best.first))
+                    add(Finding.WeakestWifiRoom(worst.first))
+                }
+            }
+            // Advice always available (even single reading)
             if (readings.any { SignalGrade.wifi(it.second) == Grade.VERY_WEAK }) {
                 add(Finding.RouterReposition)
             }
@@ -48,18 +55,23 @@ object RecommendationEngine {
     private fun cellFindings(rooms: List<RoomResult>): List<Finding> {
         val readings = rooms.mapNotNull { r -> r.cellDbm?.let { r.roomName to it } }
         if (readings.isEmpty()) return emptyList()
-        if (isSimilar(readings.map { it.second })) return listOf(Finding.AllRoomsSimilarCell)
 
-        val best = readings.maxBy { it.second }
-        val worst = readings.minBy { it.second }
-        return buildList {
-            add(Finding.BestRoomForCalls(best.first))
-            if (SignalGrade.cell(worst.second) != Grade.EXCELLENT) {
-                add(Finding.WeakestCellRoom(worst.first))
+        // Ranking findings only with 2+ readings
+        if (readings.size >= 2) {
+            if (isSimilar(readings.map { it.second })) return listOf(Finding.AllRoomsSimilarCell)
+
+            val best = readings.maxBy { it.second }
+            val worst = readings.minBy { it.second }
+            return buildList {
+                add(Finding.BestRoomForCalls(best.first))
+                if (SignalGrade.cell(worst.second) != Grade.EXCELLENT) {
+                    add(Finding.WeakestCellRoom(worst.first))
+                }
             }
         }
+        return emptyList()
     }
 
     private fun isSimilar(values: List<Int>): Boolean =
-        (values.max() - values.min()) <= SIMILAR_DBM
+        values.size >= 2 && (values.max() - values.min()) <= SIMILAR_DBM
 }
