@@ -25,7 +25,7 @@ import com.signaldekho.app.R
 import com.signaldekho.app.domain.Finding
 import com.signaldekho.app.domain.SignalGrade
 import com.signaldekho.app.ui.LocalAppContainer
-import com.signaldekho.app.ui.scanner.gradeColor
+import com.signaldekho.app.ui.components.gradeColor
 
 @Composable
 fun findingText(f: Finding): String = when (f) {

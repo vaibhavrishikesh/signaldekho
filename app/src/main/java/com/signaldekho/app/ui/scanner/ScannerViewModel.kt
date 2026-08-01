@@ -16,10 +16,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+data class NearbyNetwork(val ssid: String, val rssi: Int, val band: String, val count: Int)
+
 data class ScannerState(
     val cells: List<CellReading> = emptyList(),
     val wifi: List<WifiReading> = emptyList(),
     val connectedSsid: String? = null,
+    val connectedRssi: Int? = null,
+    val nearby: List<NearbyNetwork> = emptyList(),
     val ble: List<BleReading> = emptyList(),
     val secondsToNextScan: Int = 0,
 )
@@ -39,6 +43,21 @@ class ScannerViewModel(
         return (((next - System.currentTimeMillis()).coerceAtLeast(0) + 999) / 1000).toInt()
     }
 
+    private fun dedupe(readings: List<WifiReading>, connectedSsid: String?): List<NearbyNetwork> =
+        readings
+            .filter { it.ssid != connectedSsid }
+            .groupBy { it.ssid }
+            .map { (ssid, group) ->
+                val strongest = group.maxBy { it.rssi }
+                NearbyNetwork(
+                    ssid = ssid,
+                    rssi = strongest.rssi,
+                    band = strongest.band.name.removePrefix("GHZ_").replace('_', '.'),
+                    count = group.size,
+                )
+            }
+            .sortedByDescending { it.rssi }
+
     fun start() {
         refresh()
         bleRepo.startScan { reading ->
@@ -48,11 +67,15 @@ class ScannerViewModel(
         tickJob?.cancel()
         tickJob = viewModelScope.launch {           // 1s tick: cellular + wifi + countdown
             while (true) {
+                val wifi = wifiRepo.latestResults()
+                val connected = wifiRepo.connectedSsidAndRssi()
                 _state.update {
                     it.copy(
                         cells = cellularRepo.read(),
-                        wifi = wifiRepo.latestResults(),
-                        connectedSsid = wifiRepo.connectedSsidAndRssi()?.first,
+                        wifi = wifi,
+                        connectedSsid = connected?.first,
+                        connectedRssi = connected?.second,
+                        nearby = dedupe(wifi, connected?.first),
                         secondsToNextScan = currentSecondsToNextScan(),
                     )
                 }
@@ -69,10 +92,14 @@ class ScannerViewModel(
 
     fun refresh() {
         wifiRepo.requestScan()
+        val wifi = wifiRepo.latestResults()
+        val connected = wifiRepo.connectedSsidAndRssi()
         _state.update {
             it.copy(
-                wifi = wifiRepo.latestResults(),
-                connectedSsid = wifiRepo.connectedSsidAndRssi()?.first,
+                wifi = wifi,
+                connectedSsid = connected?.first,
+                connectedRssi = connected?.second,
+                nearby = dedupe(wifi, connected?.first),
                 cells = cellularRepo.read(),
                 secondsToNextScan = currentSecondsToNextScan(),
             )
