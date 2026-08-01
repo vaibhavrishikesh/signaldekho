@@ -1,9 +1,9 @@
 # SignalDekho
 
-Free Android app: dekho kaun se signals hain aur kitne strong — SIM/cellular,
-WiFi, Bluetooth — plus "Ghar Scan" room-by-room coverage report (EN/HI).
+Free Android app: see which signals are present where you are — SIM/cellular, WiFi, and
+Bluetooth — plus a room-by-room home coverage report.
 
-No ads. No analytics. No internet permission. Data phone se bahar nahi jata.
+No ads. No analytics. No internet permission. Nothing leaves your phone.
 
 ## Build
 

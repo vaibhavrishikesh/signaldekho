@@ -5,7 +5,7 @@
   tha but generic)
 
 ## Console tasks (manual, Sunil's account)
-1. App listing: category Tools; title + short/full description (EN + HI)
+1. App listing: category Tools; title + short/full description (English)
 2. Location permission declaration: core feature = showing signal strength of
    nearby networks/towers; WiFi scan + cell info + BLE scan APIs REQUIRE
    ACCESS_FINE_LOCATION — approximate is technically insufficient
@@ -17,6 +17,6 @@
    keystore — generate once, back it up: losing it = losing the app listing)
 
 ## Store copy angle
-- "Sab signals ek jagah" — SIM + WiFi + Bluetooth
-- Free Ghar Scan coverage report (competition charges for this)
-- Privacy: no internet permission — data phone se bahar ja hi nahi sakta
+- "All your signals in one place — SIM, WiFi, and Bluetooth"
+- "Free room-by-room coverage report (competitors charge for this)"
+- "No internet permission at all — your data cannot leave the phone, and that is verifiable in the manifest"

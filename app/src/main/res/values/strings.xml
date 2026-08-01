@@ -30,7 +30,6 @@
     <string name="scanner_stale_minutes">%1$d min old</string>
     <string name="scanner_band_ghz">%1$s GHz</string>
     <string name="scanner_home_scan_cta">Home scan</string>
-    <string name="scanner_connected">Connected</string>
 
     <string name="home_title">Home scan</string>
     <string name="home_instructions">Walk to each room, name it (or tap a chip), then tap Measure. Measure at least 2 rooms.</string>
