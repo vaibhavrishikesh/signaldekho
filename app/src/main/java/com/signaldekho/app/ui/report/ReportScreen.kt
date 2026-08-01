@@ -54,14 +54,14 @@ fun ReportScreen(surveyId: Long) {
                 Text(row.room, style = MaterialTheme.typography.bodyLarge)
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(
-                        stringResource(R.string.report_wifi_col) + " " +
-                            (row.wifiRssi?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.report_no_reading)),
+                        stringResource(R.string.report_row_wifi) + " " +
+                            (row.wifiRssi?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.report_wifi_not_measured)),
                         color = row.wifiRssi?.let { gradeColor(SignalGrade.wifi(it)) }
                             ?: MaterialTheme.colorScheme.onSurface,
                     )
                     Text(
-                        stringResource(R.string.report_cell_col) + " " +
-                            (row.cellDbm?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.report_no_reading)),
+                        stringResource(R.string.report_row_sim) + " " +
+                            (row.cellDbm?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.report_wifi_not_measured)),
                         color = row.cellDbm?.let { gradeColor(SignalGrade.cell(it)) }
                             ?: MaterialTheme.colorScheme.onSurface,
                     )

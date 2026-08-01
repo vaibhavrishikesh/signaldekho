@@ -32,7 +32,6 @@ import com.signaldekho.app.domain.Grade
 import com.signaldekho.app.domain.SignalGrade
 import com.signaldekho.app.ui.LocalAppContainer
 import com.signaldekho.app.ui.theme.GradeGood
-import com.signaldekho.app.ui.theme.GradeOk
 import com.signaldekho.app.ui.theme.GradeWeak
 
 fun gradeColor(g: Grade): Color = when (g) {
@@ -66,7 +65,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium)
-                Button(onClick = onStartGharScan) { Text(stringResource(R.string.scanner_ghar_scan_cta)) }
+                Button(onClick = onStartGharScan) { Text(stringResource(R.string.scanner_home_scan_cta)) }
             }
         }
 
@@ -78,11 +77,11 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
                 Row(verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     cell.dbm?.let { GradeDot(SignalGrade.cell(it)) }
-                    Text(stringResource(R.string.scanner_sim_line, cell.simSlot, cell.operatorName, cell.networkType))
-                    Text(cell.dbm?.let { stringResource(R.string.scanner_dbm, it) } ?: stringResource(R.string.scanner_no_reading),
+                    Text("${cell.operatorName} ${cell.networkType}")
+                    Text(cell.dbm?.let { stringResource(R.string.scanner_dbm, it) } ?: "—",
                         style = MaterialTheme.typography.bodyMedium)
                     if (cell.ageMillis > 10_000) {
-                        Text(stringResource(R.string.scanner_reading_age, cell.ageMillis / 1000),
+                        Text(stringResource(R.string.scanner_stale_minutes, cell.ageMillis / 60_000),
                             style = MaterialTheme.typography.bodySmall)
                     }
                 }
@@ -93,7 +92,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.scanner_wifi_header), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.scanner_nearby_header, state.wifi.size), style = MaterialTheme.typography.titleMedium)
                 if (state.secondsToNextScan > 0) {
                     Text(stringResource(R.string.scanner_next_scan_in, state.secondsToNextScan),
                         style = MaterialTheme.typography.bodySmall)
@@ -117,7 +116,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
                                     style = MaterialTheme.typography.labelSmall, color = GradeGood)
                             }
                         }
-                        Text(stringResource(R.string.scanner_wifi_detail, net.rssi, net.channel, net.band.name.removePrefix("GHZ_").replace('_', '.')),
+                        Text("Ch${net.channel} ${stringResource(R.string.scanner_band_ghz, net.band.name.removePrefix("GHZ_").replace('_', '.'))}",
                             style = MaterialTheme.typography.bodySmall)
                     }
                 }

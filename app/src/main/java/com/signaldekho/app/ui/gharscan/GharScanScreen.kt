@@ -31,22 +31,22 @@ fun GharScanScreen(onFinished: (Long) -> Unit) {
     }
     val state by vm.state.collectAsState()
     val chips = listOf(
-        stringResource(R.string.ghar_chip_bedroom), stringResource(R.string.ghar_chip_kitchen),
-        stringResource(R.string.ghar_chip_hall), stringResource(R.string.ghar_chip_bathroom),
-        stringResource(R.string.ghar_chip_balcony), stringResource(R.string.ghar_chip_chhat),
+        stringResource(R.string.home_chip_bedroom), stringResource(R.string.home_chip_kitchen),
+        stringResource(R.string.home_chip_hall), stringResource(R.string.home_chip_bathroom),
+        stringResource(R.string.home_chip_balcony), stringResource(R.string.home_chip_roof),
     )
 
     Column(
         Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text(stringResource(R.string.ghar_title), style = MaterialTheme.typography.headlineMedium)
-        Text(stringResource(R.string.ghar_instructions), style = MaterialTheme.typography.bodyMedium)
+        Text(stringResource(R.string.home_title), style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.home_instructions), style = MaterialTheme.typography.bodyMedium)
 
         OutlinedTextField(
             value = state.roomInput,
             onValueChange = vm::setRoomInput,
-            label = { Text(stringResource(R.string.ghar_room_hint)) },
+            label = { Text(stringResource(R.string.home_room_hint)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -59,17 +59,17 @@ fun GharScanScreen(onFinished: (Long) -> Unit) {
             onClick = vm::measureCurrentRoom,
             enabled = state.roomInput.isNotBlank() && !state.saving,
             modifier = Modifier.fillMaxWidth(),
-        ) { Text(stringResource(R.string.ghar_measure)) }
+        ) { Text(stringResource(R.string.home_measure)) }
 
         state.measuredRooms.forEach { room ->
-            Text(stringResource(R.string.ghar_measured, room))
+            Text(stringResource(R.string.home_measured, room))
         }
 
         if (state.measuredRooms.size >= 2) {
             OutlinedButton(
                 onClick = { vm.finish(onFinished) },
                 modifier = Modifier.fillMaxWidth(),
-            ) { Text(stringResource(R.string.ghar_done)) }
+            ) { Text(stringResource(R.string.home_done)) }
         }
     }
 }
