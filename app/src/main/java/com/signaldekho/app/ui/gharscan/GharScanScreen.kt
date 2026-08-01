@@ -1,5 +1,6 @@
 package com.signaldekho.app.ui.gharscan
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.signaldekho.app.R
 import com.signaldekho.app.ui.LocalAppContainer
+import com.signaldekho.app.ui.theme.GradeWeak
 
 @Composable
 fun GharScanScreen(onFinished: (Long) -> Unit) {
@@ -55,14 +58,27 @@ fun GharScanScreen(onFinished: (Long) -> Unit) {
                 AssistChip(onClick = { vm.setRoomInput(chip) }, label = { Text(chip) })
             }
         }
+        if (!state.wifiConnected) {
+            Text(
+                stringResource(R.string.home_no_wifi_warning),
+                style = MaterialTheme.typography.bodyMedium,
+                color = GradeWeak,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
+                    .padding(12.dp),
+            )
+        }
         Button(
             onClick = vm::measureCurrentRoom,
             enabled = state.roomInput.isNotBlank() && !state.saving,
             modifier = Modifier.fillMaxWidth(),
         ) { Text(stringResource(R.string.home_measure)) }
 
-        state.measuredRooms.forEach { room ->
-            Text(stringResource(R.string.home_measured, room))
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(state.measuredRooms) { room ->
+                AssistChip(onClick = {}, label = { Text(stringResource(R.string.home_measured, room)) })
+            }
         }
 
         if (state.measuredRooms.size >= 2) {
