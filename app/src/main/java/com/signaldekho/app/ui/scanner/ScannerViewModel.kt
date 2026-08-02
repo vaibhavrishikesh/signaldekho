@@ -20,7 +20,6 @@ data class NearbyNetwork(val ssid: String, val rssi: Int, val band: String, val 
 
 data class ScannerState(
     val cells: List<CellReading> = emptyList(),
-    val wifi: List<WifiReading> = emptyList(),
     val connectedSsid: String? = null,
     val connectedRssi: Int? = null,
     val nearby: List<NearbyNetwork> = emptyList(),
@@ -72,7 +71,6 @@ class ScannerViewModel(
                 _state.update {
                     it.copy(
                         cells = cellularRepo.read(),
-                        wifi = wifi,
                         connectedSsid = connected?.first,
                         connectedRssi = connected?.second,
                         nearby = dedupe(wifi, connected?.first),
@@ -96,7 +94,6 @@ class ScannerViewModel(
         val connected = wifiRepo.connectedSsidAndRssi()
         _state.update {
             it.copy(
-                wifi = wifi,
                 connectedSsid = connected?.first,
                 connectedRssi = connected?.second,
                 nearby = dedupe(wifi, connected?.first),

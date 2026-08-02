@@ -1,8 +1,8 @@
 # Play Store prep
 
 ## Decisions
-- Final app name: **SignalDekho** (locked 2026-07-29; "Signal Range" available
-  tha but generic)
+- Final app name: **SignalDekho** (locked 2026-07-29; "Signal Range" was available
+  but generic)
 
 ## Console tasks (manual, Sunil's account)
 1. App listing: category Tools; title + short/full description (English)

@@ -4,7 +4,7 @@ Install: `adb devices` shows device → `./gradlew :app:installDebug`
 
 ## Permissions
 - [ ] Fresh install → rationale screen shows BEFORE system permission dialog
-- [ ] Deny → denied screen with working "Settings kholo" deeplink
+- [ ] Deny → denied screen with working "Open settings" deeplink
 - [ ] Grant via settings → return to app → scanner loads
 
 ## Scanner
