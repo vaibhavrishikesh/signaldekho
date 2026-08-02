@@ -114,4 +114,13 @@ class RecommendationEngineTest {
         )
         assertTrue(RecommendationEngine.analyze(rooms).contains(Finding.AllRoomsSimilarWifi))
     }
+
+    @Test fun `same grade and small spread is still similar`() {
+        val rooms = listOf(
+            RoomResult("Kitchen", wifiRssi = -70, cellDbm = null),
+            RoomResult("Bedroom", wifiRssi = -72, cellDbm = null),
+        )
+        assertTrue(RecommendationEngine.analyze(rooms).contains(Finding.AllRoomsSimilarWifi))
+    }
+
 }
