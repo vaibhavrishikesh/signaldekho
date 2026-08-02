@@ -17,6 +17,7 @@ data class GharScanState(
     val measuredRooms: List<String> = emptyList(),
     val roomInput: String = "",
     val saving: Boolean = false,
+    val wifiConnected: Boolean = true,
 )
 
 class GharScanViewModel(
@@ -27,6 +28,12 @@ class GharScanViewModel(
     private val _state = MutableStateFlow(GharScanState())
     val state: StateFlow<GharScanState> = _state.asStateFlow()
     private var surveyId: Long? = null
+
+    init { refreshWifiConnected() }
+
+    private fun refreshWifiConnected() {
+        _state.update { it.copy(wifiConnected = wifiRepo.connectedSsidAndRssi() != null) }
+    }
 
     fun setRoomInput(name: String) = _state.update { it.copy(roomInput = name) }
 
@@ -53,6 +60,7 @@ class GharScanViewModel(
             _state.update {
                 it.copy(measuredRooms = it.measuredRooms + room, roomInput = "", saving = false)
             }
+            refreshWifiConnected()
         }
     }
 

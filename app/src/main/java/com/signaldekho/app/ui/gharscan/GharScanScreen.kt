@@ -1,5 +1,6 @@
 package com.signaldekho.app.ui.gharscan
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.signaldekho.app.R
 import com.signaldekho.app.ui.LocalAppContainer
+import com.signaldekho.app.ui.theme.GradeWeak
 
 @Composable
 fun GharScanScreen(onFinished: (Long) -> Unit) {
@@ -31,22 +34,22 @@ fun GharScanScreen(onFinished: (Long) -> Unit) {
     }
     val state by vm.state.collectAsState()
     val chips = listOf(
-        stringResource(R.string.ghar_chip_bedroom), stringResource(R.string.ghar_chip_kitchen),
-        stringResource(R.string.ghar_chip_hall), stringResource(R.string.ghar_chip_bathroom),
-        stringResource(R.string.ghar_chip_balcony), stringResource(R.string.ghar_chip_chhat),
+        stringResource(R.string.home_chip_bedroom), stringResource(R.string.home_chip_kitchen),
+        stringResource(R.string.home_chip_hall), stringResource(R.string.home_chip_bathroom),
+        stringResource(R.string.home_chip_balcony), stringResource(R.string.home_chip_roof),
     )
 
     Column(
         Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text(stringResource(R.string.ghar_title), style = MaterialTheme.typography.headlineMedium)
-        Text(stringResource(R.string.ghar_instructions), style = MaterialTheme.typography.bodyMedium)
+        Text(stringResource(R.string.home_title), style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.home_instructions), style = MaterialTheme.typography.bodyMedium)
 
         OutlinedTextField(
             value = state.roomInput,
             onValueChange = vm::setRoomInput,
-            label = { Text(stringResource(R.string.ghar_room_hint)) },
+            label = { Text(stringResource(R.string.home_room_hint)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -55,21 +58,34 @@ fun GharScanScreen(onFinished: (Long) -> Unit) {
                 AssistChip(onClick = { vm.setRoomInput(chip) }, label = { Text(chip) })
             }
         }
+        if (!state.wifiConnected) {
+            Text(
+                stringResource(R.string.home_no_wifi_warning),
+                style = MaterialTheme.typography.bodyMedium,
+                color = GradeWeak,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
+                    .padding(12.dp),
+            )
+        }
         Button(
             onClick = vm::measureCurrentRoom,
             enabled = state.roomInput.isNotBlank() && !state.saving,
             modifier = Modifier.fillMaxWidth(),
-        ) { Text(stringResource(R.string.ghar_measure)) }
+        ) { Text(stringResource(R.string.home_measure)) }
 
-        state.measuredRooms.forEach { room ->
-            Text(stringResource(R.string.ghar_measured, room))
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(state.measuredRooms) { room ->
+                AssistChip(onClick = {}, label = { Text(stringResource(R.string.home_measured, room)) })
+            }
         }
 
         if (state.measuredRooms.size >= 2) {
             OutlinedButton(
                 onClick = { vm.finish(onFinished) },
                 modifier = Modifier.fillMaxWidth(),
-            ) { Text(stringResource(R.string.ghar_done)) }
+            ) { Text(stringResource(R.string.home_done)) }
         }
     }
 }
