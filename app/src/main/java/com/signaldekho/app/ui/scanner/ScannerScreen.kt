@@ -78,7 +78,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
                         Text(stringResource(R.string.scanner_dbm, rssi),
                             style = MaterialTheme.typography.bodySmall, color = HeroSubtext)
                     }
-                    SegmentBar(SignalGrade.wifiFraction(rssi), gradeColor(SignalGrade.wifi(rssi)),
+                    SegmentBar(SignalGrade.wifi(rssi), gradeColor(SignalGrade.wifi(rssi)),
                         modifier = Modifier.fillMaxWidth())
                 }
             } else {
@@ -103,7 +103,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
                         }
                         val dbm = cell.dbm
                         if (dbm != null) {
-                            SegmentBar(SignalGrade.cellFraction(dbm), gradeColor(SignalGrade.cell(dbm)),
+                            SegmentBar(SignalGrade.cell(dbm), gradeColor(SignalGrade.cell(dbm)),
                                 modifier = Modifier.width(90.dp))
                         }
                         if (cell.ageMillis > 60_000) {
@@ -143,7 +143,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
             items(state.nearby, key = { it.ssid }) { net ->
                 Row(verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    SegmentBar(SignalGrade.wifiFraction(net.rssi), gradeColor(SignalGrade.wifi(net.rssi)),
+                    SegmentBar(SignalGrade.wifi(net.rssi), gradeColor(SignalGrade.wifi(net.rssi)),
                         segments = 3, modifier = Modifier.width(14.dp))
                     Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(6.dp),
                         verticalAlignment = Alignment.CenterVertically) {
@@ -166,7 +166,7 @@ fun ScannerScreen(onStartGharScan: () -> Unit) {
             items(state.ble, key = { it.address }) { dev ->
                 Row(verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    SegmentBar(SignalGrade.wifiFraction(dev.rssi), gradeColor(SignalGrade.wifi(dev.rssi)),
+                    SegmentBar(SignalGrade.wifi(dev.rssi), gradeColor(SignalGrade.wifi(dev.rssi)),
                         segments = 3, modifier = Modifier.width(14.dp))
                     Text(dev.name ?: stringResource(R.string.scanner_unknown_device))
                     Text(stringResource(R.string.scanner_dbm, dev.rssi),

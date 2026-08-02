@@ -38,15 +38,27 @@ fun gradeLabel(g: Grade): String = stringResource(
     }
 )
 
-/** Segmented strength meter: lit segments scale with [fraction]. */
+/**
+ * Lit segments for [grade]. Driven by the grade rather than the raw fraction so the
+ * meter always agrees with the word beside it — at −55 dBm the fraction is only 0.58,
+ * which would light 2 of 4 segments next to the word "Excellent".
+ */
+fun litSegments(grade: Grade, segments: Int): Int = when (grade) {
+    Grade.EXCELLENT -> segments
+    Grade.GOOD -> maxOf(1, segments * 3 / 4)
+    Grade.WEAK -> maxOf(1, segments / 2)
+    Grade.VERY_WEAK -> 1
+}
+
+/** Segmented strength meter whose lit count matches [grade]. */
 @Composable
 fun SegmentBar(
-    fraction: Float,
+    grade: Grade,
     color: Color,
     segments: Int = 4,
     modifier: Modifier = Modifier,
 ) {
-    val lit = (fraction * segments).toInt().coerceIn(if (fraction > 0f) 1 else 0, segments)
+    val lit = litSegments(grade, segments)
     val dim = MaterialTheme.colorScheme.surfaceVariant
     Row(modifier.height(6.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
         repeat(segments) { index ->
