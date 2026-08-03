@@ -5,3 +5,9 @@ local.properties
 *.iml
 .DS_Store
 /captures
+
+# Signing material — never commit. Losing these means losing the Play listing,
+# leaking them means someone else can ship updates as us.
+*.jks
+*.keystore
+keystore.properties
